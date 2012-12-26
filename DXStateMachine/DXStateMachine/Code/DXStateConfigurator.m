@@ -9,9 +9,9 @@
 #import "DXStateConfigurator.h"
 #import "DXStateMachine.h"
 #import "DXStateMachineProtocol.h"
+#import "DXStateMachineAdditions.h"
+#import "DXStateDefines.h"
 #import <objc/runtime.h>
-
-const char *kStateMachineAssociationKey = "kStateMachineAssociationKey";
 
 @interface DXStateConfigurator ()
 
@@ -30,24 +30,17 @@ const char *kStateMachineAssociationKey = "kStateMachineAssociationKey";
 {
     self = [super init];
     if (self) {
-        self.configurationQueue = dispatch_queue_create("DXStateConfigurator configuration queue", DISPATCH_QUEUE_SERIAL);
+        self.configurationQueue = dispatch_queue_create("com.111minutes.state_configuration.queue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
 
-DXStateMachine* DXStateMachineImplementation(id self, SEL _cmd) {
-    DXStateMachine *associatedStateMachine = objc_getAssociatedObject(self, &kStateMachineAssociationKey);
-    
-    return associatedStateMachine;
-}
-
 - (void)configureObject:(id)object withStateMachineConfigureBlock:(DXStateMachineConfigurationBlock)block
 {
+    NSAssert([object conformsToProtocol:@protocol(DXStateMachineProtocol)], @"add DXStateMachineProtocol support");
+    
     __weak typeof (object) weakObject = object;
-    dispatch_async(_configurationQueue, ^{
-        if (![object conformsToProtocol:@protocol(DXStateMachineProtocol)]) {
-            class_addProtocol(weakObject, @protocol(DXStateMachineProtocol));
-        }
+    dispatch_sync(_configurationQueue, ^{
         
         DXStateMachine *associatedStateMachine = objc_getAssociatedObject(weakObject, &kStateMachineAssociationKey);
         
@@ -62,6 +55,14 @@ DXStateMachine* DXStateMachineImplementation(id self, SEL _cmd) {
         
         if (!class_respondsToSelector([weakObject class], @selector(stateMachine))) {
             class_addMethod([weakObject class], @selector(stateMachine), (IMP) DXStateMachineImplementation, "@:");
+        }
+        
+        if (!class_respondsToSelector([weakObject class], @selector(setState:))) {
+            class_addMethod([weakObject class], @selector(setState:), (IMP) DXSetStateImplementation, "@:");
+        }
+        
+        if (!class_respondsToSelector([weakObject class], @selector(state))) {
+            class_addMethod([weakObject class], @selector(state), (IMP) DXGetStateImplementation, "@:");
         }
         
         block(associatedStateMachine);

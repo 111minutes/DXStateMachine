@@ -56,6 +56,7 @@
 		BCDB0A40168B2A0C00094FC3 /* DXStateMachineProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXStateMachineProtocol.h; sourceTree = "<group>"; };
 		BCDB0A41168B2A0C00094FC3 /* DXStateTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXStateTransition.h; sourceTree = "<group>"; };
 		BCDB0A42168B2A0C00094FC3 /* DXStateTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXStateTransition.m; sourceTree = "<group>"; };
+		BCDB0A49168B346C00094FC3 /* DXStateDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DXStateDefines.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +145,7 @@
 				BCDB0A40168B2A0C00094FC3 /* DXStateMachineProtocol.h */,
 				BCDB0A41168B2A0C00094FC3 /* DXStateTransition.h */,
 				BCDB0A42168B2A0C00094FC3 /* DXStateTransition.m */,
+				BCDB0A49168B346C00094FC3 /* DXStateDefines.h */,
 			);
 			path = Code;
 			sourceTree = "<group>";

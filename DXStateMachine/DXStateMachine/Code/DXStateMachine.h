@@ -6,7 +6,11 @@
 //  Copyright (c) 2012 mashkovmax. All rights reserved.
 //
 
+#import "DXStateMachineAdditions.h"
+
 @interface DXStateMachine : NSObject
+
+@property (nonatomic, strong) NSString *state;
 
 - (void)addState:(NSString*)state transitionFrom:(NSString*)from to:(NSString*)to;
 

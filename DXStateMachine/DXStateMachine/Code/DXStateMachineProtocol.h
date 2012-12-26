@@ -10,7 +10,6 @@
 
 @protocol DXStateMachineProtocol <NSObject>
 
-- (NSString *)state;
-- (DXStateMachine *)stateMachine;
+@property (nonatomic, strong) NSString *state;
 
 @end

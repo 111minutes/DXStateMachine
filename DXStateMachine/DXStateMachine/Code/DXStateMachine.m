@@ -29,6 +29,17 @@
     return self;
 }
 
+- (void)setState:(NSString *)state
+{
+    if (_state) {
+        DXState *currentState = [self stateForStateName:_state];
+        
+        NSAssert([currentState.transition.to isEqualToString:state], @"can't transition from %@ to %@", _state, state);
+    }
+    
+    _state = state;
+}
+
 - (DXState*)stateForStateName:(NSString*)stateName
 {
     for (DXState *state in self.states) {
@@ -42,14 +53,13 @@
 
 - (void)addState:(NSString*)stateName transitionFrom:(NSString*)from to:(NSString*)to
 {
-    if (![self stateForStateName:stateName]) {
-        
-        DXStateTransition *transition = [DXStateTransition transitionFrom:from to:to];
-        
-        DXState *state = [DXState stateWithName:stateName transition:transition];
-        
-        [self.states addObject:state];
-    }
+    NSAssert(![self stateForStateName:stateName], @"state already added");
+    
+    DXStateTransition *transition = [DXStateTransition transitionFrom:from to:to];
+    
+    DXState *state = [DXState stateWithName:stateName transition:transition];
+    
+    [self.states addObject:state];
 }
 
 @end

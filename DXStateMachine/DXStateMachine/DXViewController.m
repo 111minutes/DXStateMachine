@@ -7,8 +7,10 @@
 //
 
 #import "DXViewController.h"
+#import "DXStateMachine.h"
+#import "DXStateMachineProtocol.h"
 
-@interface DXViewController ()
+@interface DXViewController () <DXStateMachineProtocol>
 
 @end
 
@@ -17,13 +19,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
+    
+    configureStateMachine(self, ^(DXStateMachine *stateMachine) {
+        [stateMachine addState:@"state"
+                transitionFrom:@"lol"
+                            to:@"f"];
+    });
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self setState:@"state"];
+    [self setState:@"f"];
 }
 
 @end

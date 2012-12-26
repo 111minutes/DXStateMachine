@@ -7,10 +7,9 @@
 //
 
 #import <DXFoundation/DXSingleton.h>
+#import "DXStateDefines.h"
 
 @class DXStateMachine;
-
-typedef void (^DXStateMachineConfigurationBlock)(DXStateMachine *);
 
 @interface DXStateConfigurator : NSObject <DXSingleton>
 
