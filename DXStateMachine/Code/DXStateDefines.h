@@ -13,6 +13,6 @@
 
 typedef void (^DXStateMachineConfigurationBlock)(DXStateMachine *stateMachine);
 
-const char kStateMachineAssociationKey;
+static char kStateMachineAssociationKey;
 
 #endif
