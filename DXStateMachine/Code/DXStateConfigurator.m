@@ -10,7 +10,6 @@
 #import "DXStateMachine.h"
 #import "DXStateMachineProtocol.h"
 #import "DXStateMachineAdditions.h"
-#import "DXStateDefines.h"
 #import <objc/runtime.h>
 
 @interface DXStateConfigurator ()
@@ -42,13 +41,13 @@
     __weak typeof (object) weakObject = object;
     dispatch_sync(_configurationQueue, ^{
         
-        DXStateMachine *associatedStateMachine = objc_getAssociatedObject(weakObject, &kStateMachineAssociationKey);
+        DXStateMachine *associatedStateMachine = objc_getAssociatedObject(weakObject, kStateMachineAssociationKey);
         
         if (!associatedStateMachine) {
             associatedStateMachine = [DXStateMachine new];
             
             objc_setAssociatedObject(weakObject,
-                                     &kStateMachineAssociationKey,
+                                     kStateMachineAssociationKey,
                                      associatedStateMachine,
                                      OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
@@ -66,6 +65,7 @@
         }
         
         block(associatedStateMachine);
+    
     });
 }
 

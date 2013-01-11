@@ -21,13 +21,23 @@
     [super viewDidLoad];
     
     configureStateMachine(self, ^(DXStateMachine *stateMachine) {
-        [stateMachine addState:@"state"
-                transitionFrom:@"lol"
-                            to:@"f"];
+        [stateMachine addState:@"initial" transitionTo:@"second"];
+        [stateMachine addState:@"third"];
+        [stateMachine addTransitionFrom:@"initial" to:@"third"];
+
+        [stateMachine afterState:@"initial"
+                              do:^(NSString *state) {
+                                  NSLog(@"did change state from %@", state);
+                              }];
+        
+        [stateMachine beforeState:@"third"
+                               do:^(NSString *state) {
+                                   NSLog(@"will set %@ state", state);
+                               }];
     });
 
-    [self setState:@"state"];
-    [self setState:@"f"];
+    self.state = @"initial";
+    [self setState:@"third"];
 }
 
 @end

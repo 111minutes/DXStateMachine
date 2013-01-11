@@ -8,10 +8,10 @@
 
 @interface DXStateTransition : NSObject
 
-@property (nonatomic, copy, readonly) NSString *from;
 @property (nonatomic, copy, readonly) NSString *to;
 
-+ (id)transitionFrom:(NSString *)from to:(NSString *)to;
-- (id)initFrom:(NSString *)from to:(NSString *)to;
++ (id)transitionTo:(NSString *)to;
+
+- (id)initTo:(NSString *)to;
 
 @end

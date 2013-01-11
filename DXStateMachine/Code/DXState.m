@@ -12,7 +12,7 @@
 @interface DXState ()
 
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) DXStateTransition *transition;
+@property (nonatomic, strong) NSMutableArray *transitions;
 
 @end
 
@@ -27,10 +27,27 @@
 {
     self = [super init];
     if (self) {
+        self.transitions = [NSMutableArray new];
         self.name = stateName;
-        self.transition = transition;
+        [self.transitions addObject:transition];
     }
     return self;
+}
+
+- (void)addTransition:(DXStateTransition *)transition
+{
+    [self.transitions addObject:transition];
+}
+
+- (BOOL)canTransitionTo:(NSString *)stateName
+{
+    for (DXStateTransition *transition in self.transitions) {
+        if ([transition.to isEqual:stateName]) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 - (BOOL)isEqual:(id)object
@@ -38,16 +55,31 @@
     if (self == object) {
         return YES;
     }
+    
     if (![self isKindOfClass:[object class]]) {
         return NO;
     }
     
     DXState *other = (DXState *)object;
-    
-    BOOL transitionEquals = [self.transition isEqual:other.transition];
+
+    __block BOOL transitionsEqual = self.transitions.count == other.transitions.count;
     BOOL nameEquals = [self.name isEqualToString:other.name];
     
-    return transitionEquals && nameEquals;
+    if (transitionsEqual) {
+        [self.transitions enumerateObjectsUsingBlock:^(DXStateTransition *transition, NSUInteger idx, BOOL *stop) {
+            if (![transition.to isEqual:other.transitions[idx]]) {
+                transitionsEqual = NO;
+                *stop = YES;
+            }
+        }];
+    }
+    
+    return transitionsEqual && nameEquals;
+}
+
+- (NSString*)description
+{
+    return self.name;
 }
 
 @end
