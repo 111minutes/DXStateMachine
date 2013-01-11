@@ -8,16 +8,22 @@
 
 #import "DXStateTransition.h"
 
+@interface DXStateTransition ()
+
+@property (nonatomic, copy) NSString *to;
+
+@end
+
 @implementation DXStateTransition
 
-+ (id)transitionFrom:(NSString *)from to:(NSString *)to {
-    return [[self alloc] initFrom:from to:to];
++ (id)transitionTo:(NSString *)to {
+    return [[self alloc] initTo:to];
 }
-- (id)initFrom:(NSString *)from to:(NSString *)to {
+
+- (id)initTo:(NSString *)to {
     self = [super init];
     if (self) {
-        _from = [from copy];
-        _to = [to copy];
+        self.to = [to copy];
     }
     return self;
 }
@@ -31,9 +37,6 @@
     }
     
     DXStateTransition *other = (DXStateTransition *)object;
-    if (![self.from isEqualToString:other.from]) {
-        return NO;
-    }
     if (![self.to isEqualToString:other.to]) {
         return NO;
     }
@@ -41,7 +44,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ from: '%@' to '%@'", self.class, self.from, self.to];
+    return [NSString stringWithFormat:@"%@ to '%@'", self.class, self.to];
 }
 
 @end

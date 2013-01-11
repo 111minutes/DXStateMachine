@@ -10,6 +10,7 @@
 
 @protocol DXStateMachineProtocol <NSObject>
 
-@property (nonatomic, strong) NSString *state;
+@optional
+@property (nonatomic, strong, getter = state, setter = setState:) NSString *state;
 
 @end

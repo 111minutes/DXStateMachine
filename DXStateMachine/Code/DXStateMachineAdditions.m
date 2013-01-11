@@ -20,7 +20,7 @@ void configureStateMachine(id object, DXStateMachineConfigurationBlock configura
 
 DXStateMachine *stateMachineForObject(id object)
 {
-    DXStateMachine *associatedStateMachine = objc_getAssociatedObject(object, &kStateMachineAssociationKey);
+    DXStateMachine *associatedStateMachine = (DXStateMachine *)objc_getAssociatedObject(object, kStateMachineAssociationKey);
     
     assert(associatedStateMachine);
     
@@ -34,10 +34,10 @@ DXStateMachine *DXStateMachineImplementation(id self, SEL _cmd)
 
 void DXSetStateImplementation(id self, SEL _cmd, NSString *state)
 {
-    stateMachineForObject(self).state = [state copy];
+    [stateMachineForObject(self) performSelector:@selector(setStateName:) withObject:[state copy]];
 }
 
 NSString *DXGetStateImplementation(id self, SEL _cmd)
 {
-    return [stateMachineForObject(self).state copy];
+    return [stateMachineForObject(self) performSelector:@selector(stateName) withObject:nil];;
 }
