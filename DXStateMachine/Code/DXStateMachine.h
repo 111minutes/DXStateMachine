@@ -8,7 +8,6 @@
 
 #import "DXStateMachineAdditions.h"
 #import "DXStateMachineProtocol.h"
-#import "DXState.h"
 
 @interface DXStateMachine : NSObject
 
@@ -16,7 +15,7 @@
 - (void)addState:(NSString*)state transitionTo:(NSString*)to;
 - (void)addTransitionFrom:(NSString*)stateName to:(NSString*)to;
 
-- (void)beforeState:(NSString*)stateName do:(DXBeforeStateHandler)handler;
-- (void)afterState:(NSString*)stateName do:(DXAfterStateHandler)handler;
+- (void)beforeState:(NSString*)stateName do:(void (^)(NSString *state))handler;
+- (void)afterState:(NSString*)stateName do:(void (^)(NSString *state))handler;
 
 @end

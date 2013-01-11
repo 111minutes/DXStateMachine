@@ -8,6 +8,7 @@
 
 #import "DXStateMachine.h"
 #import "DXStateTransition.h"
+#import "DXState.h"
 
 @interface DXStateMachine ()
 
